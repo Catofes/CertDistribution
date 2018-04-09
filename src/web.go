@@ -25,6 +25,7 @@ func getApp() *iris.Application {
 
 func bind(c *Config) {
 	aStorage := (&storage{Config: *c}).Init()
+	aStorage.Load()
 	aCertHandler := certHandler{*c, aStorage}
 	aCertHandler.bind(app)
 }
