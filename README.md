@@ -1,5 +1,16 @@
 ## Cert Distribution Web
 
+#### Build
+```
+glide i
+make
+```
+or
+```
+docker build .
+```
+
+
 #### Add a cert
 ```
 curl -X PUT https://example.com -F "Cert=@0003_chain.pem"
@@ -16,7 +27,7 @@ curl https://example.com/46ae2b8c-24ef-4c28-961e-e1abd9e31c55 | jq
 curl https://example.com/46ae2b8c-24ef-4c28-961e-e1abd9e31c55/raw
 ```
 
-### Update a cert
+#### Update a cert
 ```
 curl -X POST https://example.com/46ae2b8c-24ef-4c28-961e-e1abd9e31c55 -F "Cert=@0003_chain.pem"
 ```
