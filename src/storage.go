@@ -8,12 +8,24 @@ import (
 	"sync"
 	"errors"
 	"encoding/pem"
+	"time"
 )
 
 type Cert struct {
-	Chain []x509.Certificate
-	Id    string
-	Data  string
+	Chain      []x509.Certificate
+	Id         string
+	Data       string
+	CSR        string
+	DNSType    string
+	DNSInfo    []byte
+	LastUpdate time.Time
+	Expired    time.Time
+	Mutex      sync.Mutex
+	AutoUpdate bool
+}
+
+func (s *Cert) ParseCert() *Cert {
+	return s
 }
 
 type storage struct {
@@ -59,7 +71,7 @@ func (s *storage) Set(Id string, cert []byte) error {
 	if err != nil {
 		return err
 	}
-	s.data[Id] = Cert{tmp, Id, string(cert)}
+	s.data[Id] = Cert{Chain: tmp, Id: Id, Data: string(cert)}
 	return nil
 }
 
