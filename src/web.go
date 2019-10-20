@@ -1,8 +1,9 @@
 package src
 
 import (
-	"github.com/kataras/iris"
 	"sync"
+
+	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
 )
@@ -24,8 +25,8 @@ func getApp() *iris.Application {
 }
 
 func bind(c *Config) {
-	aStorage := (&storage{Config: *c}).Init()
-	aStorage.Load()
+	aStorage := (&storage{Config: *c}).init()
+	aStorage.load()
 	aCertHandler := certHandler{*c, aStorage}
 	aCertHandler.bind(app)
 }
@@ -33,5 +34,5 @@ func bind(c *Config) {
 func Run(c *Config) {
 	getApp()
 	bind(c)
-	app.Run(iris.Addr(c.ListenOn), iris.WithoutVersionChecker)
+	app.Run(iris.Addr(c.ListenOn))
 }

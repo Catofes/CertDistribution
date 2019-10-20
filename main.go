@@ -1,15 +1,16 @@
 package main
 
 import (
-	"fmt"
 	"flag"
+	"fmt"
+
 	"github.com/Catofes/CertDistribution/src"
 )
 
-var _version_ string
+var _version string
 
 func main() {
-	fmt.Printf("Background Web. Version %s.\n", _version_)
+	fmt.Printf("Background Web. Version %s.\n", _version)
 	configPath := flag.String("c", "config.json", "Config file path.")
 	flag.Parse()
 	c := src.Config{}

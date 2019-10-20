@@ -1,11 +1,12 @@
 package src
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"log"
-	"encoding/json"
 )
 
+//Config is main config of this project
 type Config struct {
 	ListenOn  string
 	StorePath string
