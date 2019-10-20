@@ -1,4 +1,4 @@
-FROM golang
+FROM golang as builder
 ENV GO111MODULE=on
 WORKDIR /app
 COPY . .
