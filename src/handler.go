@@ -45,7 +45,7 @@ func (s *certHandler) certPut(ctx iris.Context) {
 
 func (s *certHandler) certWait(ctx iris.Context) {
 	id := ctx.Params().Get("cert_id")
-	c, err := s.data.Get(id)
+	c, err := s.data.get(id)
 	if err != nil {
 		log.Println(err)
 		ctx.Text(err.Error())
@@ -67,7 +67,7 @@ func (s *certHandler) certWait(ctx iris.Context) {
 
 func (s *certHandler) certPost(ctx iris.Context) {
 	id := ctx.Params().Get("cert_id")
-	c, err := s.data.Get(id)
+	c, err := s.data.get(id)
 	if err != nil {
 		log.Println(err)
 		ctx.Text(err.Error())
@@ -101,7 +101,7 @@ func (s *certHandler) certPost(ctx iris.Context) {
 
 func (s *certHandler) certGet(ctx iris.Context) {
 	id := ctx.Params().Get("cert_id")
-	cert, err := s.data.Get(id)
+	cert, err := s.data.get(id)
 	if err != nil {
 		ctx.Text(err.Error())
 		ctx.StatusCode(404)
@@ -112,7 +112,7 @@ func (s *certHandler) certGet(ctx iris.Context) {
 
 func (s *certHandler) certGetRaw(ctx iris.Context) {
 	id := ctx.Params().Get("cert_id")
-	cert, err := s.data.Get(id)
+	cert, err := s.data.get(id)
 	if err != nil {
 		ctx.Text(err.Error())
 		ctx.StatusCode(404)
@@ -123,7 +123,7 @@ func (s *certHandler) certGetRaw(ctx iris.Context) {
 
 func (s *certHandler) certSN(ctx iris.Context) {
 	id := ctx.Params().Get("cert_id")
-	cert, err := s.data.Get(id)
+	cert, err := s.data.get(id)
 	if err != nil {
 		ctx.Text(err.Error())
 		ctx.StatusCode(404)

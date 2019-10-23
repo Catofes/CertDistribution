@@ -37,11 +37,11 @@ func (s *cert) update(cert []byte) error {
 	return nil
 }
 
-func (s *cert) parseCert(cert []byte) error {
+func (s *cert) parseCert(data []byte) error {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
-	s.Chain = make([]x509.Certificate, 0)
-	restPEMBlock := cert
+	chain := make([]x509.Certificate, 0)
+	restPEMBlock := data
 	var certDERBlock *pem.Block
 	for {
 		certDERBlock, restPEMBlock = pem.Decode(restPEMBlock)
@@ -53,20 +53,23 @@ func (s *cert) parseCert(cert []byte) error {
 			log.Println(err)
 			continue
 		}
-		s.Chain = append(s.Chain, *cert)
+		chain = append(chain, *cert)
 	}
-	if len(s.Chain) <= 0 {
+	if len(chain) <= 0 {
 		return errors.New("empty chain")
 	}
-	s.cert = nil
-	for k, v := range s.Chain {
+	var cert *x509.Certificate
+	for k, v := range chain {
 		if !v.IsCA {
-			s.cert = &s.Chain[k]
+			cert = &chain[k]
 		}
 	}
-	if s.cert == nil {
+	if cert == nil {
 		return errors.New("no terminate cert")
 	}
+	s.Chain = chain
+	s.Data = string(data)
+	s.cert = cert
 	return nil
 }
 
@@ -127,7 +130,7 @@ func (s *storage) set(id string, c []byte) error {
 	return nil
 }
 
-func (s *storage) Get(id string) (*cert, error) {
+func (s *storage) get(id string) (*cert, error) {
 	cert, ok := s.data[id]
 	if ok {
 		return cert, nil
