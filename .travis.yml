@@ -3,5 +3,10 @@ language: go
 go:
   - "1.12.x"
 
-install:
-  - go mod download
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: build/web
+  skip_cleanup: true
+  on:
+    tags: true
