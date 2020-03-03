@@ -96,6 +96,7 @@ func (s *certHandler) certPost(ctx iris.Context) {
 		ctx.StatusCode(400)
 		return
 	}
+	s.data.save()
 	ctx.StatusCode(200)
 }
 
